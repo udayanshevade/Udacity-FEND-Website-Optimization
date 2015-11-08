@@ -1,0 +1,34 @@
+{
+  "name": "frontend-nanodegree-mobile-portfolio-master",
+  "version": "1.0.0",
+  "description": "Web Optimization",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "web",
+    "performance",
+    "optimization",
+    "critical",
+    "rendering",
+    "path",
+    "frame",
+    "rate"
+  ],
+  "author": "Udayan Shevade",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-csslint": "^0.5.0",
+    "grunt-contrib-cssmin": "^0.14.0",
+    "grunt-contrib-htmlmin": "^0.6.0",
+    "grunt-contrib-imagemin": "^0.9.4",
+    "grunt-contrib-jshint": "^0.11.3",
+    "grunt-contrib-uglify": "^0.10.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-responsive-images": "^0.1.7",
+    "grunt-w3c-html-validation": "^0.1.6",
+    "load-grunt-tasks": "^3.3.0"
+  }
+}
