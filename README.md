@@ -4,15 +4,15 @@ This online portfolio was optimized for speed! In particular, the critical rende
 
 To get started, check out the repository and inspect the code.
 
-#### Part 1: PageSpeed Insights score for index.html ~ 95 mobile, 96 desktop.
+#### Part 1: PageSpeed Insights score for ./dist/index.html ~ 95 mobile, 96 desktop.
 
 How to see the result:
 
 1. Download the files
-2. Run a local server (through the command line):
+2. Run a local server (through the command line) in the /dist/ folder:
 
   ```bash
-  $> cd /path/to/your-project-folder
+  $> cd /path/to/root-project-folder/dist
   $> python -m SimpleHTTPServer 8080
   ```
 
@@ -20,18 +20,19 @@ How to see the result:
 4. Download and install [ngrok](https://ngrok.com/) in the root of the project to make the local server accessible remotely.
 
   ``` bash
-  $> cd /path/to/your-project-folder
+  $> cd /path/to/root-project-folder/dist
   $> ngrok 8080
   ```
 
 5. Copy the forwarded public URL ngrok provides and run it through PageSpeed Insights.
+
 
 HOW THE RESULT WAS ACHIEVED:
 
 - Defered inessential scripts using async loading outside the head
 - Added print media attribute to defer print styles until necessary
 - Inlined font import stylesheet
-- Pruned unnecessary styles, used semantically suitable tags
+- Pruned unnecessary styles, using semantically suitable tags
 - Inlined all styles and removed the main stylesheet
 - Compressed code
 - Compressed and resized images
@@ -39,12 +40,12 @@ HOW THE RESULT WAS ACHIEVED:
 
 #### Part 2: Optimize Frames per Second in pizza.html
 ~ Time to generate pizzas on load: 0.64ms
-~ Average time to generate last 10 frames: 0.241ms
-~ Time to resize pizzas: ~ 1.35ms
+~ Average time to generate last 10 frames: (first 2.5ms then) 0.241ms
+~ Time to resize pizzas: ~ 1ms +/- 0.4ms
 
 How to see the result:
 
-1. Not using a server, open dist/views/pizza.html in a browser.
+1. Not using a running server, open ./dist/views/pizza.html in a browser.
 2. Open [Chrome Dev Tools](https://developer.chrome.com/devtools) (Ctrl-Shift-I or Cmd-Opt-I) and go to the [Timeline](https://developer.chrome.com/devtools/docs/timeline) tab.
 3. Begin recording a timeline and scroll the page.
 4. Change the slider to resize the pizzas.
@@ -59,6 +60,9 @@ HOW THE RESULT WAS ACHIEVED:
 - Batched style calculations rather than force layout thrashing
 - Used window.requestAnimationFrame for visual changes like appending elements
 - Promoted background pizzas to prevent bulk painting
+
+
+Further optimizations made with Grunt. See Gruntfile.js for configuration.
 
 
 ### Optional References
