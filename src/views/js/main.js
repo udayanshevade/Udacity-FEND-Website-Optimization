@@ -16,6 +16,7 @@ Cameron Pittman, Udacity Course Developer
 cameron *at* udacity *dot* com
 */
 
+// cache windowWidth and row increment for background pizzas
 var s = 256;
 var windowWidth = window.innerWidth * 1.5;
 window.addEventListener('resize', function() {
@@ -364,9 +365,10 @@ var makeRandomPizza = function() {
   return pizza;
 };
 
+// fetch and store pizzasDiv container outside the function
 var pizzasDiv = document.getElementById("randomPizzas");
 // returns a DOM element for each pizza
-var pizzaElementGenerator = function(i) {
+var pizzaElementGenerator = function() {
   var pizzaContainer,             // contains pizza title, image and list of ingredients
       pizzaImageContainer,        // contains the pizza image
       pizzaImage,                 // the pizza image itself
@@ -403,17 +405,23 @@ var pizzaElementGenerator = function(i) {
   pizzasDiv.appendChild(pizzaContainer);
 };
 
+// define array of menu generated pizza containers
+var pizzaBoxes = document.getElementsByClassName('randomPizzaContainer');
+
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
 var resizePizzas = function(size) {
   window.performance.mark("mark_start_resize");   // User Timing API function
 
+  // declare empty newWidth variable
   var newWidth;
 
   // Changes the value for the size of the pizza above the slider
   function changePizzaSize(size) {
     switch(size) {
       case "1":
+        // set label depending on input
         document.getElementById("pizzaSize").innerHTML = "Small";
+        // and then assign value to newWidth
         newWidth = 25;
         break;
       case "2":
@@ -429,11 +437,12 @@ var resizePizzas = function(size) {
     }
   }
 
+  // invoke function above
   changePizzaSize(size);
 
-  var pizzaBoxes = document.getElementsByClassName('randomPizzaContainer');
-
+  // iterate over pizza containers
   for (var i = 0, len = pizzaBoxes.length; i < len; i++) {
+    // and assign newWidth to the style of the container
     pizzaBoxes[i].style.width = newWidth + '%';
   }
 
@@ -448,11 +457,9 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
-
 for (var i = 2; i < 100; i++) {
-  requestAnimationFrame(function() {
-    pizzaElementGenerator(i);
-  });
+  // since we're executing a visual change, use requestAnimationFrame
+  window.requestAnimationFrame(pizzaElementGenerator);
 }
 
 // User Timing API again. These measurements tell you how long it took to generate the initial pizzas
@@ -484,18 +491,23 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
+  // cache scrolled distance : use || for cross-browser compat
   var scrolled = document.body.scrollTop || document.documentElement.scrollTop;
 
+  // store phase calculations
   var phaseConstants = [],
-      phase;
+      phase, i;
 
-  for (var i = 0; i < 5; i++) {
+  for (i = 0; i < 5; i++) {
+    // since the phases recur, store phases here
     phaseConstants.push(Math.sin((scrolled / 1000) + (i % 5)));
   }
 
-  for (var i = 0, len = items.length; i < len; i++) {
+  // iterate over each background pizza
+  for (i = 0, len = items.length; i < len; i++) {
+    // assign phase for the current background pizza
     phase = phaseConstants[i % 5];
-
+    // update the style based on the initial left property
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -509,6 +521,7 @@ function updatePositions() {
   }
 }
 
+// cache array of background pizzas
 var items = document.getElementsByClassName('mover');
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
@@ -517,16 +530,22 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var startPos = 0;
+  // use a reasonable number of pizzas to cover most screens
   for (var i = 0; i < 32; i++) {
+    // cache start position of each pizza
     startPos = (i % cols) * s;
+    // only create element if pizza is visible within a permissible range
     if (startPos < windowWidth) {
       var elem = document.createElement('img');
       elem.className = 'mover';
       elem.src = "images/pizza.png";
-      elem.basicLeft = (i % cols) * s;
+      // encapsulate an initial left alignment
+      elem.basicLeft = startPos;
+      // assign a starting top position for each row
       elem.style.top = (Math.floor(i / cols) * s) + 'px';
       document.getElementById("movingPizzas1").appendChild(elem);
     }
   }
-  requestAnimationFrame(updatePositions);
+  // again, use requestAnimationFrame for a visual change
+  window.requestAnimationFrame(updatePositions);
 });
