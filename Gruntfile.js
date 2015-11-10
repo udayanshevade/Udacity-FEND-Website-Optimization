@@ -108,5 +108,5 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', ['responsive_images', 'imagemin', 'validation', 'htmlmin', 'csslint', 'cssmin', 'jshint', 'uglify']);
+  grunt.registerTask('default', ['responsive_images', 'imagemin', 'validation', 'htmlmin', 'csslint', 'cssmin', 'jshint', 'uglify', 'watch']);
 };
